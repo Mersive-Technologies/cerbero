@@ -106,6 +106,8 @@ class Source (object):
             # gst-libav-1.0, etc is useless for substitution, convert to 'gst-libav'
             name = name[:-4]
         maj_ver = '.'.join(self.version.split('.')[0:2])
+        if name == "gst-plugins-bad":
+            return "https://github.com/Mersive-Technologies/%(name)s.git" % {'name': name, 'version': self.version, 'maj_ver': maj_ver}
         return string % {'name': name, 'version': self.version, 'maj_ver': maj_ver}
 
     def _get_files_dependencies(self):
