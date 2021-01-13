@@ -1,0 +1,36 @@
+---
+kind: pipeline
+name: linux
+type: docker
+
+platform:
+  os: linux
+  arch: amd64
+
+environment:
+  DEBIAN_FRONTEND: "noninteractive"
+  SDK_TEST_BASE_URL: "https://artifactory.mersive.xyz/artifactory/android/"
+
+steps:
+  - name: gstreamer build
+    image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
+    commands:
+      - printenv
+      - cd /cerbero && ./cerbero-uninstalled -c localconf.cbc -c config/cross-android-universal.cbc package gstreamer-1.0
+  - name: Deploy Artifacts
+    image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
+    commands:
+      - cd /cerbero && ./deploy.sh
+    environment:
+      ARTIFACTORY_PASSWORD:
+        from_secret: artifactory-password
+trigger:
+  ref:
+    - refs/tags/*
+    - refs/pull/*/head
+---
+kind: secret
+name: artifactory-password
+get:
+  path: drone/data/gstreamer/artifactory-password
+  name: password
