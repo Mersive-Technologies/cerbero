@@ -32,5 +32,5 @@ trigger:
 kind: secret
 name: artifactory-password
 get:
-  path: drone/data/gstreamer/artifactory-password
+  path: drone/data/cerbero/artifactory-password
   name: password
