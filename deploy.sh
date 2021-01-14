@@ -5,12 +5,13 @@ find . -name "gstreamer-*.tar.xz"
 
 echo "Renaming asset to a descriptive filename"
 export BUILD_TIME=`date +%F_%H-%M-%S`
-export FILENAME=/cerbero/gstreamer-1.0-android-universal-$GST_VERSION-${BUILD_TIME}-${DRONE_COMMIT_SHA:0:8}.tar.xz
-export FILENAME_RUNTIME=/cerbero/gstreamer-1.0-android-universal-$GST_VERSION-runtime-${BUILD_TIME}-${DRONE_COMMIT_SHA:0:8}.tar.xz
+export FILENAME=gstreamer-1.0-android-universal-$GST_VERSION-${BUILD_TIME}-${DRONE_COMMIT_SHA:0:8}.tar.xz
+export FILENAME_RUNTIME=gstreamer-1.0-android-universal-$GST_VERSION-runtime-${BUILD_TIME}-${DRONE_COMMIT_SHA:0:8}.tar.xz
 export GST_VERSION=$(./cerbero-uninstalled packageinfo gstreamer-1.0 | grep Version | grep -Eo "[0-9.]+")
-mv /cerbero/gstreamer-1.0-android-universal-$GST_VERSION.tar.xz $FILENAME
-mv /cerbero/gstreamer-1.0-android-universal-$GST_VERSION-runtime.tar.xz $FILENAME_RUNTIME
+mv gstreamer-1.0-android-universal-$GST_VERSION.tar.xz $FILENAME
+mv gstreamer-1.0-android-universal-$GST_VERSION-runtime.tar.xz $FILENAME_RUNTIME
 echo "New filename: " $FILENAME
+echo "New runtime filename: " $FILENAME_RUNTIME
 
 echo "Some useful env info"
 curl --version

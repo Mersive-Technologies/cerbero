@@ -12,19 +12,17 @@ environment:
   SDK_TEST_BASE_URL: "https://artifactory.mersive.xyz/artifactory/android/"
 
 steps:
-  - name: update cerbero repo
-    image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
-    commands:
-      - cd /cerbero && git pull
   - name: gstreamer build
     image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
     commands:
       - printenv
-      - cd /cerbero && ./cerbero-uninstalled -c localconf.cbc -c config/cross-android-universal.cbc package gstreamer-1.0
+      # the localconf is important because it lets use prefetched plugin source and NDK toolchains from the container build
+      # this helps to substantially speed up the build by avoiding a bunch of downloads
+      - ./cerbero-uninstalled -c /cerbero/localconf.cbc -c config/cross-android-universal.cbc package gstreamer-1.0
   - name: Deploy Artifacts
     image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
     commands:
-      - cd /cerbero && bash ./deploy.sh
+      - bash deploy.sh
     environment:
       ARTIFACTORY_PASSWORD:
         from_secret: artifactory-password
