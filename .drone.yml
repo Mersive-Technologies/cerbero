@@ -26,6 +26,7 @@ steps:
         from_secret: artifactory-password
 trigger:
   ref:
+    - refs/heads/mersive_build
     - refs/tags/*
     - refs/pull/*/head
 ---
