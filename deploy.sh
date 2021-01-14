@@ -19,4 +19,5 @@ ls -l $FILENAME
 ls -l $FILENAME_RUNTIME
 
 echo "Uploading gstreamer android tarballs to Artifactory"
-curl --user "ci-gstreamer-android:$ARTIFACTORY_PASSWORD" --upload-file $FILENAME "https://artifactory.mersive.xyz/artifactory/raw-rustusbip/${DRONE_SOURCE_BRANCH}/"
+curl --user "ci-cerbero:$ARTIFACTORY_PASSWORD" --upload-file $FILENAME "https://artifactory.mersive.xyz/artifactory/mersive-gstreamer/${DRONE_SOURCE_BRANCH}/"
+curl --user "ci-cerbero:$ARTIFACTORY_PASSWORD" --upload-file $FILENAME_RUNTIME "https://artifactory.mersive.xyz/artifactory/mersive-gstreamer/${DRONE_SOURCE_BRANCH}/"
