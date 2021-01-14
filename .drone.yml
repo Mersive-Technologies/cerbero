@@ -12,6 +12,10 @@ environment:
   SDK_TEST_BASE_URL: "https://artifactory.mersive.xyz/artifactory/android/"
 
 steps:
+  - name: update cerbero repo
+    image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
+    commands:
+      - cd /cerbero && git pull
   - name: gstreamer build
     image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
     commands:
@@ -20,7 +24,7 @@ steps:
   - name: Deploy Artifacts
     image: artifactory.mersive.xyz/docker-public/gstreamer-android-builder
     commands:
-      - cd /cerbero && ./deploy.sh
+      - cd /cerbero && bash ./deploy.sh
     environment:
       ARTIFACTORY_PASSWORD:
         from_secret: artifactory-password
